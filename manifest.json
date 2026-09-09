@@ -1,0 +1,16 @@
+{
+  "name": "BLODOCK - SEO 최적화 블로그 에디터 & 자동 발행 Hub",
+  "short_name": "BLODOCK",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#4f46e5",
+  "description": "SEO 최적화 AI 블로그 글 작성 및 Google Blogger, Threads, Naver 다중 포스팅 단독 데스크톱 앱",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2592/2592317.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
