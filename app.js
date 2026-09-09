@@ -452,9 +452,9 @@
         window.postMessage({ type: 'BLODOCK_NAVER_TRANSFER', ...payload }, '*');
       } catch (e) {}
 
-      const naverWriteUrl = 'https://nid.naver.com/nidlogin.login?mode=form&url=https://blog.naver.com/PostWriteForm.naver';
+      const naverWriteUrl = 'https://m.blog.naver.com/PostWriteForm.naver';
       window.open(naverWriteUrl, '_blank');
-      showToast('🟢 네이버 웨일 확장 프로그램(딸깍 SNS) 연동 중! 네이버 로그인 & 스마트에디터 ONE 창으로 이동합니다.', 'success');
+      showToast('🟢 네이버 블로그 스마트에디터 ONE 글쓰기 창으로 이동합니다! 커서를 누르고 붙여넣기(Ctrl+V)를 하세요.', 'success');
       closePublishModal();
     });
   }
@@ -1879,8 +1879,8 @@ ${escapeHtml(plainBody)}
     // First copy clean HTML to system clipboard
     copyForNaverBlog();
 
-    // Direct mobile Naver blog writer URL with automatic login session redirect
-    const targetWriteUrl = 'https://nid.naver.com/nidlogin.login?mode=form&url=https://m.blog.naver.com/PostWriteForm.naver';
+    // Direct mobile Naver blog writer URL
+    const targetWriteUrl = 'https://m.blog.naver.com/PostWriteForm.naver';
 
     try {
       window.open(targetWriteUrl, '_blank');
