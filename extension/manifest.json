@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "BLODOCK Auto Publisher (블독 원클릭 멀티 포스팅)",
+  "version": "1.0.0",
+  "description": "BLODOCK(블독) AI 에디터에서 생성된 본문을 네이버 블로그, Threads, Blogger, 티스토리에 원클릭으로 자동 입력 및 발행합니다.",
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "BLODOCK 멀티 포스팅 확장 도구"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "https://*.blog.naver.com/*",
+    "https://*.threads.net/*",
+    "https://*.blogger.com/*",
+    "https://*.tistory.com/*",
+    "https://kukii0202.github.io/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://kukii0202.github.io/blog-anti/*", "http://localhost/*", "http://127.0.0.1/*"],
+      "js": ["content/web_bridge.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["https://blog.naver.com/*", "https://m.blog.naver.com/*"],
+      "js": ["content/naver_content.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["https://www.threads.net/*", "https://threads.net/*"],
+      "js": ["content/threads_content.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["https://www.blogger.com/*", "https://draft.blogger.com/*"],
+      "js": ["content/blogger_content.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["https://*.tistory.com/*"],
+      "js": ["content/tistory_content.js"],
+      "run_at": "document_end"
+    }
+  ]
+}

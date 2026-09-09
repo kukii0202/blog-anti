@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>BLODOCK Auto Publisher</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Pretendard", sans-serif; }
+    body { width: 320px; padding: 16px; background: #0f172a; color: #f8fafc; }
+    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #1e293b; }
+    .brand { font-size: 16px; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 6px; }
+    .badge { font-size: 10px; background: #0284c7; color: #fff; padding: 2px 6px; border-radius: 4px; }
+    .status-card { background: #1e293b; border-radius: 10px; padding: 12px; margin-bottom: 16px; border: 1px solid #334155; }
+    .status-title { font-size: 12px; font-weight: 600; color: #94a3b8; margin-bottom: 4px; }
+    .payload-title { font-size: 13px; font-weight: 700; color: #f1f5f9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .actions { display: flex; flex-direction: column; gap: 8px; }
+    .btn { width: 100%; padding: 10px; border-radius: 8px; border: none; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; }
+    .btn-naver { background: #03c75a; color: #fff; }
+    .btn-threads { background: #ffffff; color: #000; }
+    .btn-tistory { background: #ff5000; color: #fff; }
+    .btn-blogger { background: #ff5722; color: #fff; }
+    .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .footer { margin-top: 16px; text-align: center; font-size: 11px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand">⚓ BLODOCK <span class="badge">PRO</span></div>
+    <span style="font-size: 11px; color: #34d399;">● 활성화됨</span>
+  </div>
+
+  <div class="status-card">
+    <div class="status-title">전송 준비된 콘텐츠</div>
+    <div class="payload-title" id="txtPayloadTitle">저장된 데이터 없음</div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-naver" id="btnOpenNaver">🟢 네이버 블로그 스마트 자동입력</button>
+    <button class="btn btn-threads" id="btnOpenThreads">🧵 Threads 게시물 자동작성</button>
+    <button class="btn btn-blogger" id="btnOpenBlogger">🟠 Google Blogger 이동</button>
+    <button class="btn btn-tistory" id="btnOpenTistory">🔴 티스토리 에디터 이동</button>
+  </div>
+
+  <div class="footer">
+    BLODOCK Hub Universal Publisher v1.0.0
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

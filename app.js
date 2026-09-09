@@ -2417,6 +2417,19 @@ ${postData.plainText}
 
     const naverFormattedHtml = convertToNaverCleanHtml(editorHtml);
 
+    try {
+      const payload = {
+        title: title,
+        contentHtml: naverFormattedHtml,
+        plainText: getCleanPlainText(editorHtml),
+        threads: threadsData,
+        tags: [state.plan.mainKeyword, ...(state.plan.subKeywords || [])].filter(Boolean),
+        timestamp: Date.now()
+      };
+      localStorage.setItem('bldock_naver_transfer_data', JSON.stringify(payload));
+      window.postMessage({ type: 'BLODOCK_UNIVERSAL_TRANSFER', ...payload }, '*');
+    } catch (e) {}
+
     copyHtmlToClipboard(naverFormattedHtml, title + '\n\n' + getCleanPlainText(editorHtml))
       .then(() => {
         showToast('🟢 네이버 블로그용 서식 복사 완료! (스마트에디터 ONE에 바로 붙여넣기)', 'success');
