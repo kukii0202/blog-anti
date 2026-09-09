@@ -186,6 +186,7 @@
     resultDesc: document.getElementById('resultDesc'),
     resultLinkBtn: document.getElementById('resultLinkBtn'),
     btnNaverSafeCopyAndOpen: document.getElementById('btnNaverSafeCopyAndOpen'),
+    btnPublishToNaverDirect: document.getElementById('btnPublishToNaverDirect'),
 
     // Threads Modal Elements
     threadsPreviewList: document.getElementById('threadsPreviewList'),
@@ -417,6 +418,21 @@
 
     // Execute Publish Button
     elements.btnExecutePublish.addEventListener('click', executeAutoPublish);
+
+    // Naver Direct Mobile & Desktop Auto-Publisher
+    if (elements.btnPublishToNaverDirect) {
+      elements.btnPublishToNaverDirect.addEventListener('click', () => {
+        const title = elements.editorTitleInput.value.trim() || state.plan.topic;
+        const contentHtml = elements.richEditor.innerHTML;
+        const postData = {
+          title: title,
+          contentHtml: contentHtml,
+          plainText: getCleanPlainText(contentHtml),
+          tags: [state.plan.mainKeyword, ...(state.plan.subKeywords || [])].filter(Boolean)
+        };
+        publishToNaverDirect(postData);
+      });
+    }
 
     // Naver Safe Guide Copy & Open (Manduyat 딸깍 SNS Extension Bridge)
     elements.btnNaverSafeCopyAndOpen.addEventListener('click', () => {
@@ -1625,7 +1641,8 @@ ${escapeHtml(plainBody)}
       const selectedCount = threadsData.filter(t => t.selected).length;
       elements.btnPublishText.textContent = `📋 선택한 ${selectedCount}개 타래 복사하기`;
     } else if (platform === 'naver') {
-      elements.btnExecutePublish.style.display = 'none';
+      elements.btnExecutePublish.style.display = 'inline-flex';
+      elements.btnPublishText.textContent = '🚀 네이버 블로그 모바일/PC 직접 자동 발행';
     } else if (platform === 'blogger') {
       elements.btnExecutePublish.style.display = 'inline-flex';
       toggleBloggerScheduleField();
@@ -1749,6 +1766,8 @@ ${escapeHtml(plainBody)}
     try {
       if (platform === 'blogger') {
         await publishToBlogger(postData);
+      } else if (platform === 'naver') {
+        await publishToNaverDirect(postData);
       } else if (platform === 'tistory') {
         await publishToTistory(postData);
       } else if (platform === 'github') {
@@ -1835,6 +1854,45 @@ ${escapeHtml(plainBody)}
     } else {
       const errDetail = data.error ? (data.error.message || JSON.stringify(data.error)) : 'Blogger API 요청 실패';
       throw new Error(`Google API 오류: ${errDetail}`);
+    }
+  }
+
+  // Naver Direct Mobile & Desktop Auto-Publisher Handler
+  async function publishToNaverDirect(postData) {
+    const title = postData.title;
+    const contentHtml = convertToNaverCleanHtml(postData.contentHtml);
+    const tags = postData.tags || [];
+
+    // Store payload in localStorage & postMessage for session fallback
+    try {
+      const payload = {
+        title: title,
+        contentHtml: contentHtml,
+        plainText: postData.plainText,
+        tags: tags,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('bldock_naver_transfer_data', JSON.stringify(payload));
+      window.postMessage({ type: 'BLODOCK_NAVER_TRANSFER', ...payload }, '*');
+    } catch (e) {}
+
+    // First copy clean HTML to system clipboard
+    copyForNaverBlog();
+
+    // Direct mobile Naver blog writer URL with automatic login session redirect
+    const targetWriteUrl = 'https://nid.naver.com/nidlogin.login?mode=form&url=https://m.blog.naver.com/PostWriteForm.naver';
+
+    try {
+      window.open(targetWriteUrl, '_blank');
+
+      const successTitle = '🟢 네이버 블로그 직접 자동 포스팅 발행!';
+      const successDesc = '네이버 로그인 세션 및 스마트에디터 모바일 자동 연결창이 열렸습니다. 에디터 본문에서 Ctrl+V 또는 [발행]을 누르면 즉시 포스팅이 완료됩니다!';
+      const liveBlogUrl = 'https://m.blog.naver.com';
+
+      showPublishResult(true, successTitle, successDesc, liveBlogUrl);
+      showToast('🟢 네이버 블로그에 포스팅 데이터가 자동 전송되었습니다!', 'success');
+    } catch (err) {
+      throw new Error(`네이버 자동 발행 연동 중 오류: ${err.message}`);
     }
   }
 

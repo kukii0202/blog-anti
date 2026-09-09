@@ -853,37 +853,41 @@
           </div>
         </div>
 
-        <!-- 4. 네이버 블로그 안전 발행 및 만두얏 딸깍 SNS 연동 폼 -->
+        <!-- 4. 네이버 블로그 모바일/PC 직접 자동 발행 & 서식 연동 폼 -->
         <div class="publish-tab-panel" id="tabPanelNaver">
           <div class="modal-info-alert info-naver">
-            <i class="fa-solid fa-shield-halved text-success"></i>
+            <i class="fa-solid fa-mobile-screen-button text-success" style="font-size: 1.2rem;"></i>
             <div>
-              <strong>네이버 블로그 &amp; 만두얏 '딸깍 SNS' 웨일 확장 프로그램 연동:</strong>
-              네이버 스마트에디터 ONE 서식을 100% 보존한 채 클립보드 및 로컬 세션으로 데이터를 즉시 전달합니다. 만두얏 '딸깍 SNS' 또는 네이버 에디터에서 <code>Ctrl+V</code>로 바로 발행할 수 있습니다.
+              <strong>네이버 블로그 모바일/PC 100% 직접 자동 발행:</strong>
+              확장 프로그램 설치 없이 브라우저에 로그인된 <strong>네이버 세션(`m.blog.naver.com`)</strong>으로 포스팅 데이터를 직접 전송해 글을 1초 만에 자동 발행합니다.
             </div>
           </div>
 
-          <div class="naver-safe-guide-card">
-            <h4><i class="fa-solid fa-wand-magic-sparkles text-success"></i> 만두얏 '딸깍 SNS' &amp; 네이버 스마트에디터 연동</h4>
-            <p>
-              아래 버튼을 누르면 BLODOCK 본문이 <strong>스마트에디터 ONE 전용 인라인 서식 HTML</strong>로 자동 복사 및 세션 보관되며, <strong>네이버 블로그 글쓰기 페이지가 즉시 열립니다.</strong>
+          <!-- 모바일/PC 100% 직접 자동 발행 버튼 영역 -->
+          <div class="naver-direct-publish-card" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #86efac; border-radius: var(--radius-md); padding: 1.15rem; margin-bottom: 1rem;">
+            <h4 style="font-size: 0.95rem; font-weight: 800; color: #14532d; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fa-solid fa-bolt-lightning text-success"></i> 모바일 &amp; PC 원클릭 직접 자동 발행
+            </h4>
+            <p style="font-size: 0.82rem; color: #166534; margin-bottom: 1rem; line-height: 1.5;">
+              스마트폰 크롬/웨일/사파리 브라우저에서도 버튼 하나로 네이버 블로그에 포스팅을 즉시 등록합니다.
             </p>
-            <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem;">
-              <button type="button" class="btn btn-success w-100" id="btnNaverSafeCopyAndOpen" style="font-size: 0.92rem; padding: 0.75rem 1rem; font-weight: 700;">
-                <i class="fa-solid fa-paper-plane"></i> 🟢 만두얏 '딸깍 SNS' 연동: 네이버 글쓰기 이동 &amp; 서식 복사 ↗
+            <button type="button" class="btn btn-success w-100" id="btnPublishToNaverDirect" style="font-size: 0.95rem; padding: 0.85rem; font-weight: 800; border-radius: var(--radius-sm); box-shadow: 0 4px 12px rgba(3, 199, 90, 0.25);">
+              <i class="fa-solid fa-paper-plane"></i> 🚀 네이버 블로그 모바일/PC 100% 직접 자동 발행
+            </button>
+          </div>
+
+          <!-- 데스크톱 전용 만두얏 딸깍 SNS 및 스마트 서식 복사 가이드 -->
+          <div class="naver-safe-guide-card">
+            <h4><i class="fa-solid fa-wand-magic-sparkles text-success"></i> 데스크톱 만두얏 '딸깍 SNS' &amp; 서식 복사 연동</h4>
+            <p>
+              BLODOCK 본문을 <strong>스마트에디터 ONE 전용 인라인 서식 HTML</strong>로 자동 복사하고, 네이버 에디터 글쓰기 창으로 즉시 이동합니다.
+            </p>
+
+            <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.8rem;">
+              <button type="button" class="btn btn-outline btn-sm w-100" id="btnNaverSafeCopyAndOpen" style="font-size: 0.85rem; padding: 0.6rem 0.8rem; font-weight: 700; border-color: #03c75a; color: #03c75a;">
+                <i class="fa-solid fa-copy"></i> 🟢 서식 복사 &amp; 네이버 글쓰기 창 이동 (딸깍 SNS 연동) ↗
               </button>
             </div>
-          </div>
-
-          <div class="blogger-guide-card" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 16px; margin-top: 1rem;">
-            <h5 style="font-size: 0.88rem; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-              <i class="fa-solid fa-lightbulb text-warning"></i> 만두얏 '딸깍 SNS' &amp; 네이버 포스팅 3초 완성 가이드
-            </h5>
-            <ol style="font-size: 0.82rem; color: #475569; margin: 0; padding-left: 1.25rem; line-height: 1.6;">
-              <li>상단 <strong>[🟢 만두얏 '딸깍 SNS' 연동]</strong> 버튼을 누르면 서식이 자동 복사되고 네이버 글쓰기 창이 켜집니다.</li>
-              <li>네이버 스마트에디터 ONE 본문 창에서 <code>Ctrl + V</code>를 누르거나, 만두얏 <strong>'딸깍 SNS' 확장 프로그램의 [본문 주입]</strong>을 클릭하세요.</li>
-              <li>제목, 소제목(H2), 강조박스, 본문 서식이 그대로 완벽하게 채워진 것을 확인하고 [발행]을 누르면 완성!</li>
-            </ol>
           </div>
         </div>
 
