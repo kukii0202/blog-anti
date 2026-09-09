@@ -2,46 +2,81 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>BLODOCK Auto Publisher</title>
+  <title>BLODOCK 블로그 자동화</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Pretendard", sans-serif; }
-    body { width: 320px; padding: 16px; background: #0f172a; color: #f8fafc; }
-    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #1e293b; }
-    .brand { font-size: 16px; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 6px; }
-    .badge { font-size: 10px; background: #0284c7; color: #fff; padding: 2px 6px; border-radius: 4px; }
-    .status-card { background: #1e293b; border-radius: 10px; padding: 12px; margin-bottom: 16px; border: 1px solid #334155; }
-    .status-title { font-size: 12px; font-weight: 600; color: #94a3b8; margin-bottom: 4px; }
-    .payload-title { font-size: 13px; font-weight: 700; color: #f1f5f9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .actions { display: flex; flex-direction: column; gap: 8px; }
-    .btn { width: 100%; padding: 10px; border-radius: 8px; border: none; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; }
-    .btn-naver { background: #03c75a; color: #fff; }
-    .btn-threads { background: #ffffff; color: #000; }
-    .btn-tistory { background: #ff5000; color: #fff; }
-    .btn-blogger { background: #ff5722; color: #fff; }
-    .btn:hover { opacity: 0.9; transform: translateY(-1px); }
-    .footer { margin-top: 16px; text-align: center; font-size: 11px; color: #64748b; }
+    body { width: 360px; min-height: 480px; padding: 16px; background: #0f172a; color: #f8fafc; }
+    
+    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #1e293b; }
+    .brand { font-size: 16px; font-weight: 800; color: #03c75a; display: flex; align-items: center; gap: 6px; }
+    .badge { font-size: 10px; background: #03c75a; color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+    
+    .step-badge { font-size: 11px; font-weight: bold; color: #38bdf8; background: rgba(56, 189, 248, 0.1); padding: 4px 8px; border-radius: 6px; margin-bottom: 10px; display: inline-block; }
+    
+    .card { background: #1e293b; border-radius: 12px; padding: 14px; margin-bottom: 14px; border: 1px solid #334155; }
+    .label { font-size: 12px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px; display: block; }
+    .input-text { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 13px; margin-bottom: 10px; outline: none; }
+    .input-text:focus { border-color: #03c75a; }
+
+    .btn { width: 100%; padding: 11px; border-radius: 8px; border: none; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; }
+    .btn-primary { background: linear-gradient(135deg, #03c75a 0%, #029a45 100%); color: #fff; box-shadow: 0 4px 12px rgba(3, 199, 90, 0.3); }
+    .btn-secondary { background: #334155; color: #cbd5e1; font-size: 12px; padding: 8px; }
+    .btn:hover { opacity: 0.95; transform: translateY(-1px); }
+    
+    .preview-box { display: none; background: #0f172a; border-radius: 8px; padding: 12px; margin-top: 10px; border: 1px solid #334155; max-height: 220px; overflow-y: auto; font-size: 12px; line-height: 1.6; }
+    .preview-title { font-size: 14px; font-weight: bold; color: #38bdf8; margin-bottom: 8px; border-bottom: 1px solid #1e293b; padding-bottom: 4px; }
+    .preview-img { width: 100%; border-radius: 6px; margin: 8px 0; border: 1px solid #334155; }
+
+    .status-msg { font-size: 12px; color: #94a3b8; margin-top: 8px; text-align: center; line-height: 1.4; }
+    .footer { margin-top: 14px; text-align: center; font-size: 11px; color: #64748b; }
+    .hide { display: none !important; }
   </style>
 </head>
 <body>
   <div class="header">
-    <div class="brand">⚓ BLODOCK <span class="badge">PRO</span></div>
-    <span style="font-size: 11px; color: #34d399;">● 활성화됨</span>
+    <div class="brand">⚓ BLODOCK <span class="badge">블로그 자동화</span></div>
+    <span style="font-size: 11px; color: #34d399;">● 스마트에디터 연동</span>
   </div>
 
-  <div class="status-card">
-    <div class="status-title">전송 준비된 콘텐츠</div>
-    <div class="payload-title" id="txtPayloadTitle">저장된 데이터 없음</div>
+  <!-- STEP 1: 주제 입력 & AI 작성 -->
+  <div id="stepGenerateCard" class="card">
+    <span class="step-badge">STEP 1. 주제 입력</span>
+    <label class="label">✍️ 포스팅할 주제를 입력하세요</label>
+    <input type="text" class="input-text" id="inputTopic" placeholder="예: 강남 가성비 분위기 맛집 5곳 추천">
+    
+    <label class="label">🏷️ 메인 키워드 (선택)</label>
+    <input type="text" class="input-text" id="inputKeywords" placeholder="예: 강남맛집, 데이트코스">
+
+    <button class="btn btn-primary" id="btnGenerate">
+      ✨ AI 글 &amp; 이미지 생성하기
+    </button>
   </div>
 
-  <div class="actions">
-    <button class="btn btn-naver" id="btnOpenNaver">🟢 네이버 블로그 스마트 자동입력</button>
-    <button class="btn btn-threads" id="btnOpenThreads">🧵 Threads 게시물 자동작성</button>
-    <button class="btn btn-blogger" id="btnOpenBlogger">🟠 Google Blogger 이동</button>
-    <button class="btn btn-tistory" id="btnOpenTistory">🔴 티스토리 에디터 이동</button>
+  <!-- STEP 2: 확인 및 네이버 자동채우기 -->
+  <div id="stepPreviewCard" class="card hide">
+    <span class="step-badge" style="color: #34d399; background: rgba(52, 211, 153, 0.1);">STEP 2. AI 작성 미리보기 확인</span>
+    
+    <div class="preview-box" id="previewBox" style="display: block;">
+      <div class="preview-title" id="previewTitle">제목 미리보기</div>
+      <div id="previewBody">본문 내용 생성 중...</div>
+    </div>
+
+    <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+      <button class="btn btn-primary" id="btnInjectToNaver">
+        🟢 네이버 에디터로 자동채우기 (제목+본문+이미지+태그)
+      </button>
+      <button class="btn btn-secondary" id="btnRegenerate">
+        🔄 주제 다시 입력 / 재생성
+      </button>
+    </div>
+  </div>
+
+  <div class="status-msg" id="txtStatus">
+    네이버 글쓰기 창에서 주제를 입력하시면 에디터에 자동으로 채워집니다.
   </div>
 
   <div class="footer">
-    BLODOCK Hub Universal Publisher v1.0.0
+    BLODOCK Auto Publisher Extension v1.2.0
   </div>
 
   <script src="popup.js"></script>

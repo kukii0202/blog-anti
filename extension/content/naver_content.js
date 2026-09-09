@@ -193,6 +193,14 @@ function showBannerStatus(msg) {
   }
 }
 
+// Listen for direct injection messages from extension popup
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'INJECT_BLODOCK_PAYLOAD' && message.payload) {
+    injectIntoNaverEditor(message.payload);
+    sendResponse({ status: 'ok' });
+  }
+});
+
 // Execute auto-fill check
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', attemptAutoFillNaverBlog);
