@@ -2,16 +2,14 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>BLODOCK 블로그 자동화</title>
+  <title>BLODOCK Gemini AI 블로그 자동화</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Pretendard", sans-serif; }
-    body { width: 360px; min-height: 480px; padding: 16px; background: #0f172a; color: #f8fafc; }
+    body { width: 360px; min-height: 520px; padding: 16px; background: #0f172a; color: #f8fafc; }
     
     .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #1e293b; }
     .brand { font-size: 16px; font-weight: 800; color: #03c75a; display: flex; align-items: center; gap: 6px; }
-    .badge { font-size: 10px; background: #03c75a; color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
-    
-    .step-badge { font-size: 11px; font-weight: bold; color: #38bdf8; background: rgba(56, 189, 248, 0.1); padding: 4px 8px; border-radius: 6px; margin-bottom: 10px; display: inline-block; }
+    .badge { font-size: 10px; background: #0284c7; color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
     
     .card { background: #1e293b; border-radius: 12px; padding: 14px; margin-bottom: 14px; border: 1px solid #334155; }
     .label { font-size: 12px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px; display: block; }
@@ -25,36 +23,46 @@
     
     .preview-box { display: none; background: #0f172a; border-radius: 8px; padding: 12px; margin-top: 10px; border: 1px solid #334155; max-height: 220px; overflow-y: auto; font-size: 12px; line-height: 1.6; }
     .preview-title { font-size: 14px; font-weight: bold; color: #38bdf8; margin-bottom: 8px; border-bottom: 1px solid #1e293b; padding-bottom: 4px; }
-    .preview-img { width: 100%; border-radius: 6px; margin: 8px 0; border: 1px solid #334155; }
 
     .status-msg { font-size: 12px; color: #94a3b8; margin-top: 8px; text-align: center; line-height: 1.4; }
     .footer { margin-top: 14px; text-align: center; font-size: 11px; color: #64748b; }
     .hide { display: none !important; }
+    
+    .api-key-wrap { font-size: 11px; color: #94a3b8; margin-bottom: 10px; }
   </style>
 </head>
 <body>
   <div class="header">
-    <div class="brand">⚓ BLODOCK <span class="badge">블로그 자동화</span></div>
-    <span style="font-size: 11px; color: #34d399;">● 스마트에디터 연동</span>
+    <div class="brand">⚓ BLODOCK <span class="badge">Gemini AI 탑재</span></div>
+    <span style="font-size: 11px; color: #34d399;">● 연동 준비완료</span>
   </div>
 
-  <!-- STEP 1: 주제 입력 & AI 작성 -->
+  <!-- STEP 1: Gemini AI 주제 입력 & 생성 -->
   <div id="stepGenerateCard" class="card">
-    <span class="step-badge">STEP 1. 주제 입력</span>
-    <label class="label">✍️ 포스팅할 주제를 입력하세요</label>
-    <input type="text" class="input-text" id="inputTopic" placeholder="예: 강남 가성비 분위기 맛집 5곳 추천">
+    <div class="api-key-wrap">
+      <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; color: #94a3b8;">
+        <span>🔑 Gemini API Key (선택/기본내장)</span>
+        <a href="#" id="toggleApiKey" style="color: #38bdf8; text-decoration: none;">설정</a>
+      </label>
+      <input type="password" class="input-text hide" id="inputApiKey" placeholder="Gemini API Key 입력 (미입력 시 기본 엔진 동작)">
+    </div>
+
+    <label class="label">✍️ 포스팅 주제 입력 (Gemini AI가 자동 작성)</label>
+    <input type="text" class="input-text" id="inputTopic" placeholder="예: 제주도 가성비 맛집 5곳 추천">
     
-    <label class="label">🏷️ 메인 키워드 (선택)</label>
-    <input type="text" class="input-text" id="inputKeywords" placeholder="예: 강남맛집, 데이트코스">
+    <label class="label">🏷️ 서브 키워드 (선택)</label>
+    <input type="text" class="input-text" id="inputKeywords" placeholder="예: 주차가능, 내돈내산, 분위기">
 
     <button class="btn btn-primary" id="btnGenerate">
-      ✨ AI 글 &amp; 이미지 생성하기
+      ✨ Gemini AI 글 &amp; 이미지 생성하기
     </button>
   </div>
 
-  <!-- STEP 2: 확인 및 네이버 자동채우기 -->
+  <!-- STEP 2: 미리보기 & 네이버 에디터 자동채우기 -->
   <div id="stepPreviewCard" class="card hide">
-    <span class="step-badge" style="color: #34d399; background: rgba(52, 211, 153, 0.1);">STEP 2. AI 작성 미리보기 확인</span>
+    <div style="font-size: 12px; font-weight: bold; color: #34d399; margin-bottom: 8px;">
+      ✨ Gemini AI 작성 완료! 미리보기 확인
+    </div>
     
     <div class="preview-box" id="previewBox" style="display: block;">
       <div class="preview-title" id="previewTitle">제목 미리보기</div>
@@ -72,11 +80,11 @@
   </div>
 
   <div class="status-msg" id="txtStatus">
-    네이버 글쓰기 창에서 주제를 입력하시면 에디터에 자동으로 채워집니다.
+    주제를 입력하시면 Gemini AI가 글과 이미지를 생성하여 네이버 에디터에 자동으로 채워줍니다.
   </div>
 
   <div class="footer">
-    BLODOCK Auto Publisher Extension v1.2.0
+    BLODOCK Gemini AI Engine v1.3.0
   </div>
 
   <script src="popup.js"></script>
