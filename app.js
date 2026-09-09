@@ -2707,6 +2707,33 @@ ${getCleanPlainText(elements.richEditor.innerHTML)}
     };
   }
 
+  // PWA Deferred Prompt Install Handler
+  let deferredPrompt;
+  const btnInstallPwa = document.getElementById('btnInstallPwa');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (btnInstallPwa) {
+      btnInstallPwa.style.display = 'inline-flex';
+    }
+  });
+
+  if (btnInstallPwa) {
+    btnInstallPwa.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          showToast('🟢 핸드폰 홈 화면에 스마트폰 앱으로 추가되었습니다!', 'success');
+        }
+        deferredPrompt = null;
+      } else {
+        alert('📲 스마트폰 브라우저 메뉴(점 3개 ⋮ 또는 공유버튼 ⎋)에서 [홈 화면에 추가] 또는 [앱 설치]를 누르시면 핸드폰 바탕화면에 앱 아이콘이 바로 설치됩니다!');
+      }
+    });
+  }
+
   // Run on DOM Ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
