@@ -858,36 +858,41 @@
           <div class="modal-info-alert info-naver">
             <i class="fa-solid fa-mobile-screen-button text-success" style="font-size: 1.2rem;"></i>
             <div>
-              <strong>네이버 블로그 모바일/PC 100% 직접 자동 발행:</strong>
-              확장 프로그램 설치 없이 브라우저에 로그인된 <strong>네이버 세션(`m.blog.naver.com`)</strong>으로 포스팅 데이터를 직접 전송해 글을 1초 만에 자동 발행합니다.
+              <strong>네이버 블로그 모바일 &amp; PC 맞춤 연동:</strong>
+              원터치로 본문 서식이 자동 복사됩니다. 모바일에서는 접속 오류 없는 <strong>모바일 네이버 블로그 메인</strong> 또는 <strong>네이버 블로그 앱</strong>으로 바로 연결됩니다.
             </div>
           </div>
 
-          <!-- 모바일/PC 100% 직접 자동 발행 버튼 영역 -->
+          <!-- 모바일 모드 추천 연동 카드가 상단에 위치 -->
           <div class="naver-direct-publish-card" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #86efac; border-radius: var(--radius-md); padding: 1.15rem; margin-bottom: 1rem;">
             <h4 style="font-size: 0.95rem; font-weight: 800; color: #14532d; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-              <i class="fa-solid fa-bolt-lightning text-success"></i> 모바일 &amp; PC 원클릭 직접 자동 발행
+              <i class="fa-solid fa-mobile-screen text-success"></i> 📱 모바일(스마트폰) 빠른 글쓰기
             </h4>
-            <p style="font-size: 0.82rem; color: #166534; margin-bottom: 1rem; line-height: 1.5;">
-              스마트폰 크롬/웨일/사파리 브라우저에서도 버튼 하나로 네이버 블로그에 포스팅을 즉시 등록합니다.
+            <p style="font-size: 0.82rem; color: #166534; margin-bottom: 0.8rem; line-height: 1.5;">
+              버튼을 누르면 제목/본문이 자동으로 복사되며, 오류 없는 모바일 네이버 블로그로 이동합니다. 이동된 화면에서 <strong>[+] 글쓰기</strong>를 누르고 <strong>붙여넣기</strong> 하세요!
             </p>
-            <button type="button" class="btn btn-success w-100" id="btnPublishToNaverDirect" style="font-size: 0.95rem; padding: 0.85rem; font-weight: 800; border-radius: var(--radius-sm); box-shadow: 0 4px 12px rgba(3, 199, 90, 0.25);">
-              <i class="fa-solid fa-paper-plane"></i> 🚀 네이버 블로그 모바일/PC 100% 직접 자동 발행
-            </button>
-          </div>
-
-          <!-- 데스크톱 전용 만두얏 딸깍 SNS 및 스마트 서식 복사 가이드 -->
-          <div class="naver-safe-guide-card">
-            <h4><i class="fa-solid fa-wand-magic-sparkles text-success"></i> 데스크톱 만두얏 '딸깍 SNS' &amp; 서식 복사 연동</h4>
-            <p>
-              BLODOCK 본문을 <strong>스마트에디터 ONE 전용 인라인 서식 HTML</strong>로 자동 복사하고, 네이버 에디터 글쓰기 창으로 즉시 이동합니다.
-            </p>
-
-            <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.8rem;">
-              <button type="button" class="btn btn-outline btn-sm w-100" id="btnNaverSafeCopyAndOpen" style="font-size: 0.85rem; padding: 0.6rem 0.8rem; font-weight: 700; border-color: #03c75a; color: #03c75a;">
-                <i class="fa-solid fa-copy"></i> 🟢 서식 복사 &amp; 네이버 글쓰기 창 이동 (딸깍 SNS 연동) ↗
+            <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+              <button type="button" class="btn btn-success w-100" id="btnNaverMobileOpen" style="font-size: 0.95rem; padding: 0.85rem; font-weight: 800; border-radius: var(--radius-sm); box-shadow: 0 4px 12px rgba(3, 199, 90, 0.25);">
+                <i class="fa-solid fa-copy"></i> 🟢 복사 &amp; 네이버 블로그 모바일 이동 (오류 방지 100%)
+              </button>
+              <button type="button" class="btn btn-outline btn-sm w-100" id="btnNaverAppOpen" style="font-size: 0.85rem; padding: 0.65rem; font-weight: 700; border-color: #03c75a; color: #03c75a; background-color: #ffffff;">
+                <i class="fa-solid fa-app-store"></i> 📲 네이버 블로그 앱으로 직접 열기 (앱 설치 시)
               </button>
             </div>
+          </div>
+
+          <!-- 데스크톱 PC 전용 이동 카드 -->
+          <div class="naver-safe-guide-card" style="border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem; background: var(--bg-card);">
+            <h4 style="font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fa-solid fa-desktop text-muted"></i> 💻 PC(데스크톱) 스마트에디터 ONE 글쓰기
+            </h4>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.6rem;">
+              PC 브라우저에서 네이버 스마트에디터 글쓰기 창으로 바로 이동합니다.
+            </p>
+
+            <button type="button" class="btn btn-outline btn-sm w-100" id="btnNaverSafeCopyAndOpen" style="font-size: 0.85rem; padding: 0.6rem 0.8rem; font-weight: 700; border-color: #03c75a; color: #03c75a;">
+              <i class="fa-solid fa-desktop"></i> 💻 PC 글쓰기 창으로 이동 &amp; 서식 복사 ↗
+            </button>
           </div>
         </div>
 

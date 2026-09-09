@@ -187,6 +187,8 @@
     resultLinkBtn: document.getElementById('resultLinkBtn'),
     btnNaverSafeCopyAndOpen: document.getElementById('btnNaverSafeCopyAndOpen'),
     btnPublishToNaverDirect: document.getElementById('btnPublishToNaverDirect'),
+    btnNaverMobileOpen: document.getElementById('btnNaverMobileOpen'),
+    btnNaverAppOpen: document.getElementById('btnNaverAppOpen'),
 
     // Threads Modal Elements
     threadsPreviewList: document.getElementById('threadsPreviewList'),
@@ -419,6 +421,39 @@
     // Execute Publish Button
     elements.btnExecutePublish.addEventListener('click', executeAutoPublish);
 
+    // Naver Mobile 100% Reliable Copy & Open (m.blog.naver.com)
+    if (elements.btnNaverMobileOpen) {
+      elements.btnNaverMobileOpen.addEventListener('click', () => {
+        copyForNaverBlog();
+        const mobileNaverUrl = 'https://m.blog.naver.com/';
+        window.open(mobileNaverUrl, '_blank');
+        showToast('🟢 글과 제목이 복사되었습니다! 네이버 화면에서 [+] (글쓰기)를 누르고 붙여넣기 하세요.', 'success');
+        closePublishModal();
+      });
+    }
+
+    // Naver Blog App Direct Deep Link (naverblog://write)
+    if (elements.btnNaverAppOpen) {
+      elements.btnNaverAppOpen.addEventListener('click', () => {
+        copyForNaverBlog();
+        showToast('🟢 글이 복사되었습니다! 네이버 블로그 앱이 열리면 붙여넣기 하세요.', 'success');
+        closePublishModal();
+        
+        // Attempt deep link scheme
+        const isAndroid = /android/i.test(navigator.userAgent);
+        if (isAndroid) {
+          window.location.href = 'intent://write#Intent;scheme=naverblog;package=com.nhn.android.blog;end';
+        } else {
+          window.location.href = 'naverblog://write';
+        }
+        
+        // Fallback to mobile web if app not installed
+        setTimeout(() => {
+          window.open('https://m.blog.naver.com/', '_blank');
+        }, 1500);
+      });
+    }
+
     // Naver Direct Mobile & Desktop Auto-Publisher
     if (elements.btnPublishToNaverDirect) {
       elements.btnPublishToNaverDirect.addEventListener('click', () => {
@@ -435,28 +470,30 @@
     }
 
     // Naver Safe Guide Copy & Open (Manduyat 딸깍 SNS Extension Bridge)
-    elements.btnNaverSafeCopyAndOpen.addEventListener('click', () => {
-      copyForNaverBlog();
-      try {
-        const title = elements.editorTitleInput.value.trim();
-        const editorHtml = elements.richEditor.innerHTML;
-        const naverFormattedHtml = convertToNaverCleanHtml(editorHtml);
-        const payload = {
-          title: title,
-          contentHtml: naverFormattedHtml,
-          plainText: getCleanPlainText(editorHtml),
-          tags: [state.plan.mainKeyword, ...(state.plan.subKeywords || [])].filter(Boolean),
-          timestamp: Date.now()
-        };
-        localStorage.setItem('bldock_naver_transfer_data', JSON.stringify(payload));
-        window.postMessage({ type: 'BLODOCK_NAVER_TRANSFER', ...payload }, '*');
-      } catch (e) {}
+    if (elements.btnNaverSafeCopyAndOpen) {
+      elements.btnNaverSafeCopyAndOpen.addEventListener('click', () => {
+        copyForNaverBlog();
+        try {
+          const title = elements.editorTitleInput.value.trim();
+          const editorHtml = elements.richEditor.innerHTML;
+          const naverFormattedHtml = convertToNaverCleanHtml(editorHtml);
+          const payload = {
+            title: title,
+            contentHtml: naverFormattedHtml,
+            plainText: getCleanPlainText(editorHtml),
+            tags: [state.plan.mainKeyword, ...(state.plan.subKeywords || [])].filter(Boolean),
+            timestamp: Date.now()
+          };
+          localStorage.setItem('bldock_naver_transfer_data', JSON.stringify(payload));
+          window.postMessage({ type: 'BLODOCK_NAVER_TRANSFER', ...payload }, '*');
+        } catch (e) {}
 
-      const naverWriteUrl = 'https://blog.naver.com/MyBlog.naver?Redirect=Write';
-      window.open(naverWriteUrl, '_blank');
-      showToast('🟢 네이버 블로그 스마트에디터 ONE 글쓰기 창으로 이동합니다! 커서를 누르고 붙여넣기(Ctrl+V)를 하세요.', 'success');
-      closePublishModal();
-    });
+        const naverWriteUrl = 'https://blog.naver.com/MyBlog.naver?Redirect=Write';
+        window.open(naverWriteUrl, '_blank');
+        showToast('🟢 네이버 블로그 스마트에디터 ONE 글쓰기 창으로 이동합니다! 커서를 누르고 붙여넣기(Ctrl+V)를 하세요.', 'success');
+        closePublishModal();
+      });
+    }
   }
 
   // ==========================================================================
