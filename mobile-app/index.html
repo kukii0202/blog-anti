@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>BLODOCK Mobile - 올인원 AI 포스팅</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="mobile-header">
+    <div class="brand-title">
+      <i class="fa-solid fa-anchor"></i> BLODOCK Mobile
+    </div>
+    <span class="badge-mode">안드로이드 올인원</span>
+  </header>
+
+  <!-- 1. 멀티모달 입력 섹션 -->
+  <section class="card-section">
+    <span class="section-label">
+      <i class="fa-solid fa-wand-magic-sparkles"></i> 1. 자유 조합 입력 (1가지 이상 선택)
+    </span>
+
+    <div class="multimodal-grid">
+      <!-- 음성 STT 마이크 버튼 -->
+      <button type="button" class="btn-input-tile" id="btnVoiceMic">
+        <i class="fa-solid fa-microphone" id="micIcon" style="font-size: 20px; color: #38bdf8;"></i>
+        <span id="txtMicLabel">🎤 마이크로 말하기</span>
+      </button>
+
+      <!-- 갤러리 사진 첨부 버튼 -->
+      <button type="button" class="btn-input-tile" id="btnPhotoPick">
+        <i class="fa-solid fa-camera" style="font-size: 20px; color: #34d399;"></i>
+        <span>📸 갤러리 사진 선택</span>
+      </button>
+      <input type="file" id="filePhotoInput" accept="image/*" multiple style="display: none;">
+    </div>
+
+    <!-- 사진 미리보기 바 -->
+    <div class="photo-preview-bar hidden" id="photoPreviewBar"></div>
+
+    <!-- 주제/메모/음성 인식 텍스트 창 -->
+    <span class="section-label" style="font-size: 12px; color: #cbd5e1; margin-top: 4px;">
+      ✍️ 입력된 말 / 주제 / 메모
+    </span>
+    <textarea class="input-textarea" id="inputTopicText" placeholder="예: 말로 중얼거리시거나, 사진 선택, 또는 키워드를 직접 적어주세요."></textarea>
+  </section>
+
+  <!-- 2. 타겟 플랫폼 & 포맷 선택 섹션 -->
+  <section class="card-section">
+    <span class="section-label">
+      <i class="fa-solid fa-sliders"></i> 2. 포스팅 타겟 &amp; AI 포맷 선택
+    </span>
+
+    <select class="select-box" id="selectOutputFormat">
+      <option value="blog_naver">🟢 네이버 블로그 (SEO 글 + 고화질 사진 3장 + 태그)</option>
+      <option value="reels_insta">🎬 인스타 릴스 (15초/30초 자막 스크립트 + 캡션)</option>
+      <option value="threads">🧵 Threads (1~4장 카드시리즈 글)</option>
+    </select>
+
+    <button type="button" class="btn-generate" id="btnGenerateAi">
+      <i class="fa-solid fa-bolt"></i> ✨ Gemini AI 1초 변환 생성
+    </button>
+  </section>
+
+  <!-- 3. 결과 확인 & 네이버 앱 쏘기 섹션 -->
+  <section class="card-section hidden" id="resultSection">
+    <span class="section-label" style="color: #34d399;">
+      <i class="fa-solid fa-circle-check"></i> 3. Gemini AI 생성 결과
+    </span>
+
+    <div class="output-preview-box" id="previewContainer"></div>
+
+    <!-- 네이버 블로그 앱 쏘기 딥링크 버튼 -->
+    <button type="button" class="btn-shoot-naver" id="btnShootNaver">
+      <i class="fa-solid fa-paper-plane"></i> 🚀 네이버 블로그 앱으로 쏘기 (자동 복사 &amp; 앱 열기)
+    </button>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
