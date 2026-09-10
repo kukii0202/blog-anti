@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BLODOCK Smart Publisher</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div class="hero-title-row">
+        <h1>⚓ BLODOCK 유니버설</h1>
+        <span class="badge-free">100% 무제한 무료</span>
+      </div>
+      <p class="meta">AI 글쓰기 · 네이버 블로그·카페 · Blogger · 인스타그램 · Threads</p>
+      <div class="hero-actions">
+        <button id="bindTabButton" class="btn-bind" type="button">① 현재 탭 연결하기</button>
+      </div>
+    </header>
+
+    <!-- 연결 상태 패널 -->
+    <section class="card">
+      <span class="field-label">현재 연결 상태</span>
+      <div id="contextStatus" class="status-badge">
+        🔍 현재 활성화된 네이버 블로그·카페 또는 SNS 탭을 확인 중입니다.
+      </div>
+      
+      <span class="field-label">작성 플랫폼 선택</span>
+      <select id="postingModeInput" class="select-box">
+        <option value="blog">네이버 블로그 · 카페 · Google Blogger · 티스토리</option>
+        <option value="threads">Threads (글 1~10개 연동 · 카드뉴스)</option>
+        <option value="instagram">Instagram (캡션 · 카드뉴스 프롬프트)</option>
+      </select>
+    </section>
+
+    <!-- 포스팅 설정 & 주제 입력 카드 -->
+    <section class="card">
+      <span class="field-label">생성 AI 엔진</span>
+      <select id="selectAiEngine" class="select-box">
+        <option value="gemini">Gemini 2.5 Flash AI (추천)</option>
+        <option value="builtin">BLODOCK 내장 SEO 스마트 엔진</option>
+      </select>
+
+      <span class="field-label">✍️ 포스팅 주제 및 핵심 키워드</span>
+      <textarea id="inputTopic" placeholder="예: 강남 가성비 맛집 5곳 추천, 분위기와 주차 정보 포함"></textarea>
+
+      <span class="field-label">🏷️ 서브 키워드 / 세부 요청 (선택)</span>
+      <input type="text" id="inputKeywords" class="input-text" placeholder="예: 데이트코스, 내돈내산, 주차가능">
+
+      <div style="display: flex; gap: 8px;">
+        <div style="flex: 1;">
+          <span class="field-label">이미지 스타일</span>
+          <select id="selectImageStyle" class="select-box">
+            <option value="photo">📸 실사 모던 포토</option>
+            <option value="3d">🎨 3D 입체 일러스트</option>
+            <option value="infographic">📊 정보성 인포그래픽</option>
+          </select>
+        </div>
+        <div style="width: 100px;">
+          <span class="field-label">이미지 개수</span>
+          <select id="selectImageCount" class="select-box">
+            <option value="2">2장</option>
+            <option value="3" selected>3장</option>
+            <option value="4">4장</option>
+            <option value="0">글만</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="btnGenerateAll" class="btn-primary" type="button" style="margin-top: 6px;">
+        ✨ AI 글 · 이미지 생성하기
+      </button>
+    </section>
+
+    <!-- 생성 결과 미리보기 & 자동채우기 -->
+    <section id="previewCard" class="card hidden">
+      <span class="field-label" style="color: #34d399;">✨ AI 생성 완료 미리보기</span>
+      
+      <div id="previewTitle" style="font-size: 13px; font-weight: bold; color: #38bdf8; margin-bottom: 6px;"></div>
+      <div id="previewContainer" class="preview-container"></div>
+
+      <button id="btnInjectActiveTab" class="btn-primary" type="button" style="margin-top: 10px;">
+        🚀 연결된 탭에 0.1초 자동 채우기
+      </button>
+    </section>
+
+    <div class="footer">
+      BLODOCK Universal SidePanel Pro v2.0.0
+    </div>
+  </main>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>

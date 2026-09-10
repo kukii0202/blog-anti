@@ -1,36 +1,53 @@
 {
   "manifest_version": 3,
-  "name": "BLODOCK Auto Publisher (블독 원클릭 멀티 포스팅)",
-  "version": "1.0.0",
-  "description": "BLODOCK(블독) AI 에디터에서 생성된 본문을 네이버 블로그, Threads, Blogger, 티스토리에 원클릭으로 자동 입력 및 발행합니다.",
+  "name": "BLODOCK Smart Publisher (무제한 AI 멀티 포스팅)",
+  "version": "2.0.0",
+  "description": "네이버 블로그·카페, Google Blogger, Threads, 인스타그램용 AI 글·이미지 생성 및 에디터 0.1초 자동 작성 확장 도구입니다.",
   "action": {
-    "default_popup": "popup/popup.html",
-    "default_title": "BLODOCK 멀티 포스팅 확장 도구"
+    "default_icon": {
+      "16": "icon-16.png",
+      "32": "icon-32.png",
+      "48": "icon-48.png"
+    },
+    "default_title": "BLODOCK 멀티 포스팅"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
   },
   "background": {
     "service_worker": "background.js"
   },
   "permissions": [
-    "storage",
     "activeTab",
+    "sidePanel",
     "scripting",
+    "storage",
+    "tabs",
     "clipboardWrite"
   ],
   "host_permissions": [
     "https://*.blog.naver.com/*",
+    "https://*.naver.com/*",
     "https://*.threads.net/*",
     "https://*.blogger.com/*",
     "https://*.tistory.com/*",
+    "https://*.instagram.com/*",
     "https://kukii0202.github.io/*"
   ],
   "content_scripts": [
     {
-      "matches": ["https://kukii0202.github.io/blog-anti/*", "http://localhost/*", "http://127.0.0.1/*"],
+      "matches": ["https://kukii0202.github.io/blog-anti/*", "http://localhost/*"],
       "js": ["content/web_bridge.js"],
       "run_at": "document_end"
     },
     {
-      "matches": ["https://blog.naver.com/*", "https://m.blog.naver.com/*"],
+      "matches": [
+        "https://blog.naver.com/*",
+        "https://m.blog.naver.com/*",
+        "https://blog.editor.naver.com/*",
+        "https://editor.naver.com/*",
+        "https://cafe.naver.com/*"
+      ],
       "js": ["content/naver_content.js"],
       "run_at": "document_end"
     },
