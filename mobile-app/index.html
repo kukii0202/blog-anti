@@ -10,7 +10,7 @@
 </head>
 <body>
 
-  <!-- 앱 상단 브랜딩 헤더 -->
+  <!-- 앱 상단 헤더 -->
   <header class="mobile-header">
     <div class="brand-title">
       <i class="fa-solid fa-pen-nib"></i> 블로그 자동화 에디터
@@ -18,7 +18,7 @@
     <span class="badge-mode">BLODOCK Mobile</span>
   </header>
 
-  <!-- 1. 상단 플랫폼 탭 선택 (네이버 / 구글블로거 / 스레드 / 인스타) -->
+  <!-- 1. 상단 타겟 플랫폼 탭 선택 (네이버 / 구글블로거 / 스레드 / 인스타) -->
   <nav class="platform-tabs">
     <button class="tab-btn active" data-platform="naver">
       <span class="tab-icon">🟢</span> 네이버
@@ -34,76 +34,109 @@
     </button>
   </nav>
 
-  <!-- 2. 중앙 디스플레이 영역 (생성된 글 & 이미지 표시) -->
+  <!-- 2. 중앙 디스플레이 영역 (AI 팝업에서 작업해 온 글 & 이미지 수신/표시) -->
   <section class="display-card">
     <div class="display-header">
       <span class="display-title"><i class="fa-solid fa-desktop"></i> 디스플레이</span>
-      <span class="display-status" id="displayStatus">대기 중... 주제를 입력하고 AI를 호출하세요.</span>
+      <span class="display-status" id="displayStatus">AI 창을 열어 직접 대화 후 글을 가져오세요.</span>
     </div>
     
-    <!-- 사진 미리보기 바 -->
+    <!-- 사진 첨부 바 -->
     <div class="photo-preview-bar hidden" id="photoPreviewBar"></div>
 
     <div class="display-content" id="displayArea">
-      <div class="display-placeholder">
-        <i class="fa-solid fa-sparkles" style="font-size: 32px; color: #38bdf8; margin-bottom: 10px;"></i>
-        <p style="font-size: 14px; font-weight: bold; color: #e2e8f0;">[디스플레이 영역]</p>
+      <div class="display-placeholder" id="displayPlaceholder">
+        <i class="fa-solid fa-cloud-arrow-down" style="font-size: 36px; color: #38bdf8; margin-bottom: 10px;"></i>
+        <p style="font-size: 14px; font-weight: bold; color: #e2e8f0;">[디스플레이 수신 영역]</p>
         <p style="font-size: 12px; color: #94a3b8; margin-top: 6px;">
-          아래에서 AI(제미나이 / 챗GPT / Claude)를 선택하고<br>
-          주제나 음성을 입력하면 완성된 글과 이미지가 표시됩니다.
+          아래 버튼을 눌러 <strong>실제 제미나이 / 챗GPT / Claude 창</strong>을 띄운 뒤<br>
+          직접 작업하고 팝업을 닫으면 이곳으로 글이 가져와집니다.
         </p>
       </div>
     </div>
-  </section>
 
-  <!-- 3. AI 선택 버튼 영역 (제미나이 / 챗GPT / Claude) -->
-  <section class="ai-selector-section">
-    <span class="section-label-sm"><i class="fa-solid fa-robot"></i> AI 엔진 선택</span>
-    <div class="ai-btn-group">
-      <button class="ai-btn active" data-ai="gemini" id="btnAiGemini">
-        <i class="fa-solid fa-gemini" style="color: #38bdf8;"></i> 제미나이
-      </button>
-      <button class="ai-btn" data-ai="chatgpt" id="btnAiGpt">
-        <i class="fa-solid fa-bolt" style="color: #10b981;"></i> 챗GPT
-      </button>
-      <button class="ai-btn" data-ai="claude" id="btnAiClaude">
-        <i class="fa-solid fa-brain" style="color: #a855f7;"></i> Claude
-      </button>
-    </div>
-  </section>
-
-  <!-- 4. 하단 챗창 & 음성/사진 입력 영역 -->
-  <section class="input-section">
-    <div class="input-toolbar">
-      <!-- 음성 STT 마이크 버튼 -->
-      <button type="button" class="btn-tool-icon" id="btnVoiceMic" title="마이크 음성 입력">
-        <i class="fa-solid fa-microphone" id="micIcon" style="color: #38bdf8;"></i>
-        <span id="txtMicLabel">음성 입력</span>
-      </button>
-
-      <!-- 갤러리 사진 첨부 버튼 -->
-      <button type="button" class="btn-tool-icon" id="btnPhotoPick" title="갤러리 사진 선택">
-        <i class="fa-solid fa-image" style="color: #34d399;"></i>
-        <span>사진 첨부</span>
-      </button>
-      <input type="file" id="filePhotoInput" accept="image/*" multiple style="display: none;">
-    </div>
-
-    <!-- 챗창 (입력창) -->
-    <textarea class="chat-input" id="inputTopicText" placeholder="예: 도회동 맛집에 대한 글과 이미지를 만들어 줘..."></textarea>
-
-    <!-- AI 생성 실행 버튼 -->
-    <button type="button" class="btn-generate-ai" id="btnGenerateAi">
-      <i class="fa-solid fa-wand-magic-sparkles"></i> AI로 글 &amp; 이미지 생성하기
-    </button>
-  </section>
-
-  <!-- 5. 하단 플랫폼으로 글 옮기기/쏘기 버튼 -->
-  <section class="action-section">
+    <!-- 하단 원클릭 쏘기 버튼 -->
     <button type="button" class="btn-shoot-platform" id="btnShootPlatform">
       <i class="fa-solid fa-paper-plane"></i> <span id="txtShootLabel">🚀 네이버 블로그로 글 옮기기 (자동 복사 &amp; 앱 열기)</span>
     </button>
   </section>
+
+  <!-- 3. 실제 AI 팝업창 호출 버튼 그룹 (제미나이 / 챗GPT / Claude) -->
+  <section class="ai-selector-section">
+    <span class="section-label-sm"><i class="fa-solid fa-window-restore"></i> 실제 AI 창 열어서 직접 작업하기</span>
+    <div class="ai-btn-group">
+      <button class="ai-btn-launch" data-ai="gemini" id="btnOpenGemini">
+        <i class="fa-solid fa-sparkles" style="color: #38bdf8; font-size: 18px;"></i>
+        <span>제미나이 창 열기</span>
+      </button>
+      <button class="ai-btn-launch" data-ai="chatgpt" id="btnOpenGpt">
+        <i class="fa-solid fa-bolt" style="color: #10b981; font-size: 18px;"></i>
+        <span>챗GPT 창 열기</span>
+      </button>
+      <button class="ai-btn-launch" data-ai="claude" id="btnOpenClaude">
+        <i class="fa-solid fa-brain" style="color: #a855f7; font-size: 18px;"></i>
+        <span>Claude 창 열기</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 4. 하단 서브 챗창 & 툴바 -->
+  <section class="input-section">
+    <div class="input-toolbar">
+      <button type="button" class="btn-tool-icon" id="btnVoiceMic">
+        <i class="fa-solid fa-microphone" id="micIcon" style="color: #38bdf8;"></i>
+        <span id="txtMicLabel">음성 입력</span>
+      </button>
+
+      <button type="button" class="btn-tool-icon" id="btnPhotoPick">
+        <i class="fa-solid fa-image" style="color: #34d399;"></i>
+        <span>내 사진 첨부</span>
+      </button>
+      <input type="file" id="filePhotoInput" accept="image/*" multiple style="display: none;">
+    </div>
+
+    <textarea class="chat-input" id="inputTopicText" placeholder="직접 만든 글을 이곳에 붙여넣거나 수정하실 수도 있습니다."></textarea>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 5. 실제 AI 대화 전용 스마트 팝업 오버레이 (화면에 띄워서 직접 작업하는 창) -->
+  <!-- ========================================================================= -->
+  <div class="ai-modal-overlay hidden" id="aiModalOverlay">
+    <div class="ai-modal-container">
+      <div class="ai-modal-header">
+        <div class="ai-modal-title" id="aiModalTitle">
+          <i class="fa-solid fa-robot"></i> 실제 AI 대화 창
+        </div>
+        <button class="btn-modal-close" id="btnCloseAiModal">
+          <i class="fa-solid fa-xmark"></i> 작업 완료 &amp; 팝업 죽이기
+        </button>
+      </div>
+
+      <div class="ai-modal-actions-bar">
+        <span class="modal-guide-txt">💡 AI 창에서 텍스트를 복사한 후 아래 버튼을 누르시면 디스플레이로 들어옵니다!</span>
+        <button class="btn-import-clip" id="btnImportClipboard">
+          <i class="fa-solid fa-paste"></i> 📋 복사한 글 디스플레이로 가져오기
+        </button>
+      </div>
+
+      <!-- 실제 AI 웹뷰 / iframe 및 바로가기 창 -->
+      <div class="ai-iframe-wrapper">
+        <iframe id="aiFrame" src="about:blank" frameborder="0"></iframe>
+        
+        <div class="ai-fallback-box hidden" id="aiFallbackBox">
+          <p style="font-size: 14px; font-weight: bold; color: #f8fafc; margin-bottom: 8px;">
+            📲 스마트폰 앱 정책으로 외부 웹창이 바로 안 뜰 경우
+          </p>
+          <p style="font-size: 12px; color: #cbd5e1; margin-bottom: 12px;">
+            아래 공식 AI 버튼을 눌러 작업하신 후, 글을 복사하고 창을 닫아주세요!
+          </p>
+          <a href="https://gemini.google.com/" target="_blank" class="btn-direct-ai" id="linkDirectAi">
+            🚀 공식 AI 페이지 새창 열기
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
