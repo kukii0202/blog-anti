@@ -3,78 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>BLODOCK Mobile - 올인원 AI 포스팅</title>
+  <title>블로그 자동화 에디터 - BLODOCK Mobile</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+  <!-- 앱 상단 브랜딩 헤더 -->
   <header class="mobile-header">
     <div class="brand-title">
-      <i class="fa-solid fa-anchor"></i> BLODOCK Mobile
+      <i class="fa-solid fa-pen-nib"></i> 블로그 자동화 에디터
     </div>
-    <span class="badge-mode">안드로이드 올인원</span>
+    <span class="badge-mode">BLODOCK Mobile</span>
   </header>
 
-  <!-- 1. 멀티모달 입력 섹션 -->
-  <section class="card-section">
-    <span class="section-label">
-      <i class="fa-solid fa-wand-magic-sparkles"></i> 1. 자유 조합 입력 (1가지 이상 선택)
-    </span>
+  <!-- 1. 상단 플랫폼 탭 선택 (네이버 / 구글블로거 / 스레드 / 인스타) -->
+  <nav class="platform-tabs">
+    <button class="tab-btn active" data-platform="naver">
+      <span class="tab-icon">🟢</span> 네이버
+    </button>
+    <button class="tab-btn" data-platform="blogger">
+      <span class="tab-icon">🔵</span> 구글블로거
+    </button>
+    <button class="tab-btn" data-platform="threads">
+      <span class="tab-icon">🧵</span> 스레드
+    </button>
+    <button class="tab-btn" data-platform="insta">
+      <span class="tab-icon">📸</span> 인스타
+    </button>
+  </nav>
 
-    <div class="multimodal-grid">
+  <!-- 2. 중앙 디스플레이 영역 (생성된 글 & 이미지 표시) -->
+  <section class="display-card">
+    <div class="display-header">
+      <span class="display-title"><i class="fa-solid fa-desktop"></i> 디스플레이</span>
+      <span class="display-status" id="displayStatus">대기 중... 주제를 입력하고 AI를 호출하세요.</span>
+    </div>
+    
+    <!-- 사진 미리보기 바 -->
+    <div class="photo-preview-bar hidden" id="photoPreviewBar"></div>
+
+    <div class="display-content" id="displayArea">
+      <div class="display-placeholder">
+        <i class="fa-solid fa-sparkles" style="font-size: 32px; color: #38bdf8; margin-bottom: 10px;"></i>
+        <p style="font-size: 14px; font-weight: bold; color: #e2e8f0;">[디스플레이 영역]</p>
+        <p style="font-size: 12px; color: #94a3b8; margin-top: 6px;">
+          아래에서 AI(제미나이 / 챗GPT / Claude)를 선택하고<br>
+          주제나 음성을 입력하면 완성된 글과 이미지가 표시됩니다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. AI 선택 버튼 영역 (제미나이 / 챗GPT / Claude) -->
+  <section class="ai-selector-section">
+    <span class="section-label-sm"><i class="fa-solid fa-robot"></i> AI 엔진 선택</span>
+    <div class="ai-btn-group">
+      <button class="ai-btn active" data-ai="gemini" id="btnAiGemini">
+        <i class="fa-solid fa-gemini" style="color: #38bdf8;"></i> 제미나이
+      </button>
+      <button class="ai-btn" data-ai="chatgpt" id="btnAiGpt">
+        <i class="fa-solid fa-bolt" style="color: #10b981;"></i> 챗GPT
+      </button>
+      <button class="ai-btn" data-ai="claude" id="btnAiClaude">
+        <i class="fa-solid fa-brain" style="color: #a855f7;"></i> Claude
+      </button>
+    </div>
+  </section>
+
+  <!-- 4. 하단 챗창 & 음성/사진 입력 영역 -->
+  <section class="input-section">
+    <div class="input-toolbar">
       <!-- 음성 STT 마이크 버튼 -->
-      <button type="button" class="btn-input-tile" id="btnVoiceMic">
-        <i class="fa-solid fa-microphone" id="micIcon" style="font-size: 20px; color: #38bdf8;"></i>
-        <span id="txtMicLabel">🎤 마이크로 말하기</span>
+      <button type="button" class="btn-tool-icon" id="btnVoiceMic" title="마이크 음성 입력">
+        <i class="fa-solid fa-microphone" id="micIcon" style="color: #38bdf8;"></i>
+        <span id="txtMicLabel">음성 입력</span>
       </button>
 
       <!-- 갤러리 사진 첨부 버튼 -->
-      <button type="button" class="btn-input-tile" id="btnPhotoPick">
-        <i class="fa-solid fa-camera" style="font-size: 20px; color: #34d399;"></i>
-        <span>📸 갤러리 사진 선택</span>
+      <button type="button" class="btn-tool-icon" id="btnPhotoPick" title="갤러리 사진 선택">
+        <i class="fa-solid fa-image" style="color: #34d399;"></i>
+        <span>사진 첨부</span>
       </button>
       <input type="file" id="filePhotoInput" accept="image/*" multiple style="display: none;">
     </div>
 
-    <!-- 사진 미리보기 바 -->
-    <div class="photo-preview-bar hidden" id="photoPreviewBar"></div>
+    <!-- 챗창 (입력창) -->
+    <textarea class="chat-input" id="inputTopicText" placeholder="예: 도회동 맛집에 대한 글과 이미지를 만들어 줘..."></textarea>
 
-    <!-- 주제/메모/음성 인식 텍스트 창 -->
-    <span class="section-label" style="font-size: 12px; color: #cbd5e1; margin-top: 4px;">
-      ✍️ 입력된 말 / 주제 / 메모
-    </span>
-    <textarea class="input-textarea" id="inputTopicText" placeholder="예: 말로 중얼거리시거나, 사진 선택, 또는 키워드를 직접 적어주세요."></textarea>
-  </section>
-
-  <!-- 2. 타겟 플랫폼 & 포맷 선택 섹션 -->
-  <section class="card-section">
-    <span class="section-label">
-      <i class="fa-solid fa-sliders"></i> 2. 포스팅 타겟 &amp; AI 포맷 선택
-    </span>
-
-    <select class="select-box" id="selectOutputFormat">
-      <option value="blog_naver">🟢 네이버 블로그 (SEO 글 + 고화질 사진 3장 + 태그)</option>
-      <option value="reels_insta">🎬 인스타 릴스 (15초/30초 자막 스크립트 + 캡션)</option>
-      <option value="threads">🧵 Threads (1~4장 카드시리즈 글)</option>
-    </select>
-
-    <button type="button" class="btn-generate" id="btnGenerateAi">
-      <i class="fa-solid fa-bolt"></i> ✨ Gemini AI 1초 변환 생성
+    <!-- AI 생성 실행 버튼 -->
+    <button type="button" class="btn-generate-ai" id="btnGenerateAi">
+      <i class="fa-solid fa-wand-magic-sparkles"></i> AI로 글 &amp; 이미지 생성하기
     </button>
   </section>
 
-  <!-- 3. 결과 확인 & 네이버 앱 쏘기 섹션 -->
-  <section class="card-section hidden" id="resultSection">
-    <span class="section-label" style="color: #34d399;">
-      <i class="fa-solid fa-circle-check"></i> 3. Gemini AI 생성 결과
-    </span>
-
-    <div class="output-preview-box" id="previewContainer"></div>
-
-    <!-- 네이버 블로그 앱 쏘기 딥링크 버튼 -->
-    <button type="button" class="btn-shoot-naver" id="btnShootNaver">
-      <i class="fa-solid fa-paper-plane"></i> 🚀 네이버 블로그 앱으로 쏘기 (자동 복사 &amp; 앱 열기)
+  <!-- 5. 하단 플랫폼으로 글 옮기기/쏘기 버튼 -->
+  <section class="action-section">
+    <button type="button" class="btn-shoot-platform" id="btnShootPlatform">
+      <i class="fa-solid fa-paper-plane"></i> <span id="txtShootLabel">🚀 네이버 블로그로 글 옮기기 (자동 복사 &amp; 앱 열기)</span>
     </button>
   </section>
 

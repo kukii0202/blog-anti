@@ -10,22 +10,25 @@ body {
   background: #0f172a;
   color: #f8fafc;
   min-height: 100vh;
-  padding: 16px;
+  padding: 12px;
   max-width: 480px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
+/* 상단 헤더 */
 .mobile-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 14px;
-  margin-bottom: 16px;
+  padding-bottom: 8px;
   border-bottom: 1px solid #1e293b;
 }
 
 .brand-title {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 800;
   color: #03c75a;
   display: flex;
@@ -42,96 +45,220 @@ body {
   font-weight: 700;
 }
 
-.card-section {
+/* 1. 상단 플랫폼 탭 (네이버 / 구글블로거 / 스레드 / 인스타) */
+.platform-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
   background: #1e293b;
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 16px;
+  padding: 4px;
+  border-radius: 12px;
   border: 1px solid #334155;
 }
 
-.section-label {
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding: 8px 4px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.2s;
+}
+
+.tab-btn.active {
+  background: #0f172a;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  border: 1px solid #03c75a;
+}
+
+/* 2. 중앙 디스플레이 영역 */
+.display-card {
+  background: #1e293b;
+  border-radius: 14px;
+  padding: 14px;
+  border: 1px solid #334155;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 220px;
+}
+
+.display-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 8px;
+}
+
+.display-title {
   font-size: 13px;
   font-weight: 800;
   color: #38bdf8;
-  margin-bottom: 8px;
+}
+
+.display-status {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.display-content {
+  background: #0f172a;
+  border-radius: 10px;
+  padding: 14px;
+  border: 1px solid #334155;
+  min-height: 180px;
+  max-height: 320px;
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.display-placeholder {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px 10px;
+}
+
+/* 3. AI 버튼 영역 (제미나이 / 챗GPT / Claude) */
+.ai-selector-section {
+  display: flex;
+  flex-direction: column;
   gap: 6px;
 }
 
-.multimodal-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 14px;
+.section-label-sm {
+  font-size: 11px;
+  font-weight: 700;
+  color: #cbd5e1;
 }
 
-.btn-input-tile {
-  background: #0f172a;
-  border: 1.5px dashed #475569;
-  border-radius: 12px;
-  padding: 14px 10px;
+.ai-btn-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.ai-btn {
+  background: #1e293b;
+  border: 1.5px solid #334155;
+  border-radius: 10px;
+  padding: 10px 6px;
   color: #cbd5e1;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   transition: all 0.2s;
 }
 
-.btn-input-tile.active {
-  border-color: #03c75a;
-  background: rgba(3, 199, 90, 0.1);
+.ai-btn.active[data-ai="gemini"] {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+}
+
+.ai-btn.active[data-ai="chatgpt"] {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.15);
   color: #34d399;
 }
 
-.mic-icon-pulse {
-  font-size: 20px;
-  color: #ef4444;
-  animation: pulse 1.2s infinite ease-in-out;
+.ai-btn.active[data-ai="claude"] {
+  border-color: #a855f7;
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.2); opacity: 0.7; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-.input-textarea {
-  width: 100%;
-  min-height: 80px;
+/* 4. 챗창 & 입력 영역 */
+.input-section {
+  background: #1e293b;
+  border-radius: 14px;
   padding: 12px;
+  border: 1px solid #334155;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-toolbar {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-tool-icon {
+  background: #0f172a;
+  border: 1px solid #475569;
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-tool-icon.active {
+  border-color: #03c75a;
+  color: #34d399;
+  background: rgba(3, 199, 90, 0.1);
+}
+
+.chat-input {
+  width: 100%;
+  min-height: 70px;
+  padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid #475569;
   background: #0f172a;
   color: #ffffff;
   font-size: 13px;
-  margin-bottom: 12px;
   outline: none;
   resize: vertical;
 }
 
-.input-textarea:focus {
+.chat-input:focus {
   border-color: #03c75a;
 }
 
-.select-box {
+.btn-generate-ai {
   width: 100%;
-  padding: 11px;
+  padding: 12px;
   border-radius: 10px;
-  border: 1px solid #475569;
-  background: #0f172a;
+  border: none;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
   color: #ffffff;
-  font-size: 13px;
-  margin-bottom: 12px;
-  outline: none;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.btn-generate {
+/* 5. 플랫폼 쏘기 버튼 */
+.action-section {
+  margin-top: 4px;
+}
+
+.btn-shoot-platform {
   width: 100%;
   padding: 14px;
   border-radius: 12px;
@@ -148,49 +275,20 @@ body {
   gap: 8px;
 }
 
-.btn-shoot-naver {
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: none;
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 10px;
-}
-
+/* 사진 프리뷰 바 */
 .photo-preview-bar {
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  margin-bottom: 10px;
   padding-bottom: 4px;
 }
 
 .photo-thumb {
-  width: 64px;
-  height: 64px;
+  width: 54px;
+  height: 54px;
   border-radius: 8px;
   object-fit: cover;
   border: 1px solid #38bdf8;
-}
-
-.output-preview-box {
-  background: #0f172a;
-  border-radius: 10px;
-  padding: 12px;
-  border: 1px solid #334155;
-  max-height: 240px;
-  overflow-y: auto;
-  font-size: 12px;
-  line-height: 1.6;
 }
 
 .hidden {
@@ -204,10 +302,22 @@ body {
   transform: translateX(-50%);
   background: #03c75a;
   color: #fff;
-  padding: 12px 20px;
+  padding: 10px 18px;
   border-radius: 20px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: bold;
   box-shadow: 0 8px 24px rgba(0,0,0,0.4);
   z-index: 9999;
+}
+
+.mic-icon-pulse {
+  font-size: 14px;
+  color: #ef4444;
+  animation: pulse 1.2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
 }
