@@ -4,11 +4,6 @@
   "version": "2.0.0",
   "description": "네이버 블로그·카페, Google Blogger, Threads, 인스타그램용 AI 글·이미지 생성 및 에디터 0.1초 자동 작성 확장 도구입니다.",
   "action": {
-    "default_icon": {
-      "16": "icon-16.png",
-      "32": "icon-32.png",
-      "48": "icon-48.png"
-    },
     "default_title": "BLODOCK 멀티 포스팅"
   },
   "side_panel": {
